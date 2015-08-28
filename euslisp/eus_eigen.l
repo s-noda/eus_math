@@ -25,7 +25,7 @@
 		       :depth (+ depth 1))))))
    (library_search (format nil "~A:~A/lib"
 			   (unix:getenv "LD_LIBRARY_PATH")
-			   (read-line (piped-fork "rospack find eus_eigen"))))))
+			   (read-line (piped-fork "rospack find eus_math"))))))
 
 (defforeign _calc-eigen
   *eigen-plugin*
@@ -44,6 +44,24 @@
   "calc_determinant"
   (:integer :string)
   :float)
+
+(defforeign debug-dump-float
+  *eigen-plugin*
+  "debug_dump_float"
+  (:string :integer)
+  :integer)
+
+(defforeign debug-dump-double
+  *eigen-plugin*
+  "debug_dump_double"
+  (:string :integer)
+  :integer)
+
+(defforeign debug-dump-int
+  *eigen-plugin*
+  "debug_dump_int"
+  (:string :integer)
+  :integer)
 
 (defun calc-eigen
   (&key
