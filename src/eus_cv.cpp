@@ -52,6 +52,43 @@ int cv_kmeans(int k, int sample_n, int sample_length,
 }
 }
 
+extern "C" {
+int cv_hcluster(int sample_n, int sample_length,
+		float* _p, float* _center,
+		int max_iter, int branch, double eps, int debug) {
+  cvflann::KMeansIndexParams k_params(branch, max_iter,
+				      cvflann::FLANN_CENTERS_KMEANSPP, eps);
+  cv::Mat p(sample_n,sample_length,CV_32F,_p);
+  cv::Mat center(sample_n,sample_length,CV_32F,_center);
+  int cnt;
+  //
+  CV_Assert(center.refcount == NULL);
+  CV_Assert(p.refcount == NULL);
+  //
+  cnt = cv::flann::hierarchicalClustering<cv::flann::L2<float> >(p,center,k_params);
+  if ( debug ) {
+    std::cout << "points:" << std::endl;
+    for(int i=0 ; i<sample_n ; i++) {
+      for ( int j=0; j<sample_length ; j++ ){
+	std::cout << " " << _p[j+i*sample_length];
+      }
+      std::cout << std::endl;
+    }
+    //
+    std::cout << "id: 0-" << cnt << std::endl;
+    //
+    std::cout << "centers:" << std::endl;
+    for(int i=0 ; i<cnt ; i++) {
+      for ( int j=0; j<sample_length ; j++ ){
+	std::cout << " " << _center[j+i*sample_length];
+      }
+      std::cout << std::endl;
+    }
+  }
+  return cnt;
+}
+}
+
 int main() {
   int k=2;
   int sample_n = 10;

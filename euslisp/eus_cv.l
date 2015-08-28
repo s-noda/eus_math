@@ -33,6 +33,12 @@
   (:integer :integer :integer :string :string :string :integer :double :integer)
   :integer)
 
+(defforeign _cv-hcluster
+  *cv-plugin*
+  "cv_hcluster"
+  (:integer :integer :string :string :integer :integer :double :integer)
+  :integer)
+
 (defun cv-kmeans
   (&key
    (k 3)
@@ -59,27 +65,63 @@
   ;; (print points) (print centers) (print id)
   )
 
-(defun test-cv-kmeans
+(defun cv-hcluster
+  (&key
+   (sample-n 10)
+   (length 3)
+   (points (instantiate float-vector (* sample-n length)))
+   (centers (instantiate float-vector (* sample-n length)))
+   (branch 2)
+   (max-iter 10)
+   (eps 0.2)
+   ;;
+   (points-str (dvector2float-bytestring points))
+   (centers-str (dvector2float-bytestring centers))
+   ;;
+   (debug? t)
+   cnt
+   )
+  (setq
+   cnt
+   (_cv-hcluster sample-n length points-str centers-str
+		 max-iter branch  eps (if debug? 1 0)))
+  ;;
+  (if points (float-bytestring2dvector points-str points))
+  (if centers (float-bytestring2dvector centers-str centers))
+  ;;
+  ;; (print points) (print centers) (print id)
+  cnt
+  )
+
+(defun test-cv
   (&key
    (k 3)
    (sample-n 10)
    (length 3)
-   (points (let* ((p (instantiate float-vector (* sample-n length)))
-		  (center (instantiate float-vector length)))
-	     (dotimes (j length)
-	       (dotimes (i sample-n)
-		 (setf (aref p (+ i (* j sample-n)))
-		       (+ (aref center j) (random 1.0)))
-		 )
-	       (dotimes (j (length center))
-		 (setf (aref center j) (+ (aref center j) 100))))
-	     p))
+   (points)
    (id (instantiate integer-vector sample-n))
    (centers (instantiate float-vector (* k length)))
    (max-iter 10)
    (eps 0.01)
+   ;;
+   (test 'cv-kmeans)
    )
-  (cv-kmeans :k k :sample-n sample-n :length length :points points :id id :centers centers :max-iter max-iter :eps eps)
+  (cond
+   ((not points)
+    (setq points (instantiate float-vector (* sample-n length)))
+    (let* ((c 0))
+      (dotimes (i sample-n)
+	(dotimes (j length)
+	  (setf (aref points (+ i (* j sample-n)))
+		(+ c (random 1.0)))
+	  )
+	(setq c (+ c 100))))
+    ))
+  (cond
+   ((eq test 'cv-kmeans)
+    (cv-kmeans :k k :sample-n sample-n :length length :points points :id id :centers centers :max-iter max-iter :eps eps))
+   ((eq test 'cv-hcluster)
+    (cv-hcluster :sample-n sample-n :length length :points points :centers centers :max-iter max-iter :eps eps)))
   (print points)
   (print id)
   (print centers))
