@@ -34,3 +34,39 @@ extern "C"{
     return ret;
   }
 }
+
+extern "C" {
+  int debug_dump_float(float* v, int n){
+    std::cout << v[0];
+    for ( int i=1 ; i<n ; i++ ){
+      std::cout << " " << v[i];
+      v[i]++;
+    }
+    std::cout << std::endl;
+    return 0;
+  }
+}
+
+extern "C" {
+  int debug_dump_double(double* v, int n){
+    std::cout << v[0];
+    for ( int i=1 ; i<n ; i++ ){
+      std::cout << " " << v[i];
+      v[i]++;
+    }
+    std::cout << std::endl;
+    return 0;
+  }
+}
+
+extern "C" {
+  int debug_dump_int(int* v, int n){
+    std::cout << v[0];
+    for ( int i=1 ; i<n ; i++ ){
+      std::cout << " " << v[i];
+      v[i]++;
+    }
+    std::cout << std::endl;
+    return 0;
+  }
+}
