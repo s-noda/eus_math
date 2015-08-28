@@ -15,5 +15,6 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 add_library(eus_eigen SHARED src/eus_eigen.cpp)
 
-add_executable(eus_cv src/eus_cv.cpp)
+##add_executable(eus_cv src/eus_cv.cpp)
+add_library(eus_cv SHARED src/eus_cv.cpp)
 target_link_libraries(eus_cv ${OpenCV_LIBRARIES})
