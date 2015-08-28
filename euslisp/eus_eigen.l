@@ -108,7 +108,7 @@
   (format t " -- -- dif = ~A~%"
 	  (norm (v- (send (m* inv-mat mat) :get-val 'entity)
 		    (send unit :get-val 'entity))))
-  (format t " -- eigen inverse ~%" det)
+  (format t " -- eus inverse ~%" det)
   (format-array (bench (setq inv-mat2 (inverse-matrix mat))))
   (format t " -- -- dif = ~A~%"
 	  (norm (v- (send (m* inv-mat2 mat) :get-val 'entity)
