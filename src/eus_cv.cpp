@@ -9,9 +9,10 @@
 // void copy_array_to_cvmat(cv::Mat &mat, double *ar) {
 // }
 
+extern "C" {
 int cv_kmeans(int k, int sample_n, int sample_length,
 	      float* _p, int* _id, float* _center,
-	      int max_iter, double eps) {
+	      int max_iter, double eps, int debug) {
   cv::Mat p(sample_n,sample_length,CV_32F,_p);
   cv::Mat id(sample_n,1,CV_32S,_id);
   cv::Mat center(k,sample_length,CV_32F,_center);
@@ -23,7 +24,32 @@ int cv_kmeans(int k, int sample_n, int sample_length,
   cv::kmeans(p, k, id, cvTermCriteria(CV_TERMCRIT_EPS|CV_TERMCRIT_ITER, max_iter, eps),
 	     1, cv::KMEANS_PP_CENTERS, center);
   //
+  if ( debug ) {
+    std::cout << "points:" << std::endl;
+    for(int i=0 ; i<sample_n ; i++) {
+      for ( int j=0; j<sample_length ; j++ ){
+	std::cout << " " << _p[j+i*sample_length];
+      }
+      std::cout << std::endl;
+    }
+    //
+    std::cout << "id:" << std::endl;
+    for(int i=0 ; i<sample_n ; i++) {
+      std::cout << " " << _id[i];
+    }
+    std::cout << std::endl;
+    //
+    std::cout << "centers:" << std::endl;
+    for(int i=0 ; i<k ; i++) {
+      for ( int j=0; j<sample_length ; j++ ){
+	std::cout << " " << _center[j+i*sample_length];
+      }
+      std::cout << std::endl;
+    }
+  }
+  //
   return 0;
+}
 }
 
 int main() {
@@ -44,29 +70,7 @@ int main() {
     }
   }
   //
-  cv_kmeans(k, sample_n, sample_length, p, id, center, 10, 0.01);
-  //
-  std::cout << "points:" << std::endl;
-  for(int i=0 ; i<sample_n ; i++) {
-    for ( int j=0; j<sample_length ; j++ ){
-      std::cout << " " << p[j+i*sample_length];
-    }
-    std::cout << std::endl;
-  }
-  //
-  std::cout << "id:" << std::endl;
-  for(int i=0 ; i<sample_n ; i++) {
-    std::cout << " " << id[i];
-  }
-  std::cout << std::endl;
-  //
-  std::cout << "centers:" << std::endl;
-  for(int i=0 ; i<k ; i++) {
-    for ( int j=0; j<sample_length ; j++ ){
-      std::cout << " " << center[j+i*sample_length];
-    }
-    std::cout << std::endl;
-  }
+  cv_kmeans(k, sample_n, sample_length, p, id, center, 10, 0.01, 1);
   //
   return 0;
 }
