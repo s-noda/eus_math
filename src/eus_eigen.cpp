@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 #include <complex>
 #include <Eigen/Dense>
@@ -74,12 +75,12 @@ extern "C" {
 extern "C" {
   int print_args(double* ds, float f, double d, int i, long l, long* ls) {
     std::cout << __func__ << std::endl;
-    std::cout << "  -- double string=" << ds[0] << std::endl;
-    std::cout << "  -- float        =" << f     << std::endl;
-    std::cout << "  -- double       =" << d     << std::endl;
-    std::cout << "  -- integer      =" << i     << std::endl;
-    std::cout << "  -- long         =" << l     << std::endl;
-    std::cout << "  -- long string  =" << ls[0] << std::endl;
+    printf("  -- double string=%2.16f\n", ds[0]);
+    printf("  -- float        =%2.16f\n", f);
+    printf("  -- double       =%2.16f\n", d);
+    printf("  -- integer      =%2.16f\n", i);
+    printf("  -- long         =%2.16f\n", l);
+    printf("  -- long string  =%2.16f\n", ls[0]);
     return 0;
   }
 }

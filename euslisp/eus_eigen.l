@@ -23,9 +23,9 @@
       (t
        (library_search (subseq str (min (length str) (+ colon-pos 1)))
 		       :depth (+ depth 1))))))
-   (library_search (format nil "~A:~A/lib"
-			   (unix:getenv "LD_LIBRARY_PATH")
-			   (read-line (piped-fork "rospack find eus_math"))))))
+   (library_search (format nil "~A/lib:~A"
+			   (read-line (piped-fork "rospack find eus_math"))
+			   (unix:getenv "LD_LIBRARY_PATH")))))
 
 (defforeign _calc-eigen
   *eigen-plugin*
