@@ -81,6 +81,7 @@ extern "C" {
     printf("  -- integer      =%2.16f\n", i);
     printf("  -- long         =%2.16f\n", l);
     printf("  -- long string  =%2.16f\n", ls[0]);
+    ds[0] = 1.11111111111111111111111111111111;
     return 0;
   }
 }
