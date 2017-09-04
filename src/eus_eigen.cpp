@@ -70,3 +70,16 @@ extern "C" {
     return 0;
   }
 }
+
+extern "C" {
+  int print_args(double* ds, float f, double d, int i, long l, long* ls) {
+    std::cout << __func__ << std::endl;
+    std::cout << "  -- double string=" << ds[0] << std::endl;
+    std::cout << "  -- float        =" << f     << std::endl;
+    std::cout << "  -- double       =" << d     << std::endl;
+    std::cout << "  -- integer      =" << i     << std::endl;
+    std::cout << "  -- long         =" << l     << std::endl;
+    std::cout << "  -- long string  =" << ls[0] << std::endl;
+    return 0;
+  }
+}

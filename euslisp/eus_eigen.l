@@ -63,6 +63,15 @@
   (:string :integer)
   :integer)
 
+(defforeign print-args
+  *eigen-plugin*
+  "print_args"
+  (:string :double :double :integer :integer :string)
+  :integer)
+
+(let* ((val 1.111111111) (vali (round val)))
+  (print-args (float-vector val) val val vali vali (integer-vector vali)))
+
 (defun calc-eigen
   (&key
    (mat (diagonal (random-vector 1.0)))

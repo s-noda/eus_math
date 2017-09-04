@@ -2,6 +2,7 @@ project(eus_math)
 
 cmake_minimum_required(VERSION 2.4.6)
 
+find_package(catkin COMPONENTS cmake_modules euslisp)
 find_package(Eigen REQUIRED)
 find_package(OpenCV REQUIRED)
 
