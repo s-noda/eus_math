@@ -75,13 +75,13 @@ extern "C" {
 extern "C" {
   int print_args(double* ds, float f, double d, int i, long l, long* ls) {
     std::cout << __func__ << std::endl;
-    printf("  -- double string=%2.16f\n", ds[0]);
-    printf("  -- float        =%2.16f\n", f);
-    printf("  -- double       =%2.16f\n", d);
-    printf("  -- integer      =%2.16f\n", i);
-    printf("  -- long         =%2.16f\n", l);
-    printf("  -- long string  =%2.16f\n", ls[0]);
-    ds[0] = 1.11111111111111111111111111111111;
+    printf("  -- double string=%2.50f\n", ds[0]);
+    printf("  -- float        =%2.50f\n", f);
+    printf("  -- double       =%2.50f\n", d);
+    printf("  -- integer      =%2.50f\n", i);
+    printf("  -- long         =%2.50f\n", l);
+    printf("  -- long string  =%2.50f\n", ls[0]);
+    ds[0] = 1e-3;
     return 0;
   }
 }

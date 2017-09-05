@@ -69,10 +69,10 @@
   (:string :double :double :integer :integer :string)
   :integer)
 
-(let* ((val 1.11111111111111111111111111111111) (vali (round val))
+(let* ((val 0.001) (vali (round val))
        (ar (float-vector val)))
   (print-args ar val val vali vali (integer-vector vali))
-  (format t "~2,16f~%" (aref ar 0)))
+  (format t "~2,50f~%" (aref ar 0)))
 
 (defun calc-eigen
   (&key
